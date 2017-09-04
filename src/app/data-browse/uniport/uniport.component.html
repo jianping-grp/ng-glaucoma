@@ -1,0 +1,13 @@
+<div class="table table-responsive table-hover table-striped">
+  <tr>
+    <th>#</th>
+    <th>entry</th>
+    <th>entryName</th>
+  </tr>
+
+  <tr *ngFor="let edge of edges; let i= index">
+    <td>{{i+1}}</td>
+    <td>{{edge.node.entry}}</td>
+    <td>{{edge.node.entryname}}</td>
+  </tr>
+</div>

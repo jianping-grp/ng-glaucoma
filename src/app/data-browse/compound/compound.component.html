@@ -1,0 +1,36 @@
+<div *ngIf="loading">
+  <h3>loading...</h3>
+</div>
+
+<div *ngIf="!loading" class="table-responsive">
+  <table class="table table-hover">
+    <tr>
+      <th>#</th>
+      <th>genericName</th>
+      <th>image</th>
+      <th>smiles</th>
+      <th>molWeight</th>
+      <th>cas</th>
+      <th>drugbankId</th>
+    </tr>
+
+    <tr *ngFor="let edge of edges; let i=index">
+      <td>{{i+1}}</td>
+      <td>{{edge.node.genericName}}</td>
+      <td><img src="{{edge.node.image}}" class="img-responsive img-thumbnail" alt="No Image"></td>
+      <td>{{edge.node.smiles}}</td>
+      <td>{{edge.node.molWeight}}</td>
+      <td>{{edge.node.cas}}</td>
+      <td>{{edge.node.drugbankId}}</td>
+    </tr>
+  </table>
+
+  <footer>
+    <pagination [totalItems]="bigTotalItems"
+                [(ngModel)]="bigCurrentPage"
+                [maxSize]="maxSize"
+                (pageChanged)="pageChanged($event)"
+                [itemsPerPage]="bigItemsPerPage"
+                class="pagination-sm"></pagination>
+  </footer>
+</div>
