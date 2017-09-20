@@ -7,7 +7,7 @@ import {Component, OnInit} from "@angular/core";
 })
 
 export class BrowseListComponent implements OnInit {
-  title = 'Browse the Database';
+  title = ' Database';
   constructor() { }
 
   ngOnInit() { }

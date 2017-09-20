@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Apollo} from "apollo-angular";
+import {variable} from "@angular/compiler/src/output/output_ast";
 
 @Injectable()
 export class QueryService {
@@ -23,6 +24,12 @@ export class QueryService {
       variables: {
         id: Id
       }
+    })
+  }
+
+  dataQuery(query: any) {
+    return this.apollo.watchQuery({
+      query: query
     })
   }
 }

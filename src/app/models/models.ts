@@ -5,7 +5,7 @@ export class PageInfo {
   endCursor: string;
 }
 
-export class allCompound {
+export class allCompounds {
   pageInfo: PageInfo;
   edges: CompoundNodeEdge[];
 }
@@ -16,7 +16,7 @@ export class CompoundNodeEdge {
 }
 
 export class CompoundNode {
-  id: string;
+  id: any;
   genericName: string;
   IUPACName: string;
   smiles: string;
@@ -24,4 +24,22 @@ export class CompoundNode {
   molWeight: number;
   cas: string;
   drugbankId: string;
+  uniprotinfoSet: allUniprots;
+}
+
+export class allUniprots {
+  pageInfo: PageInfo;
+  edges: UniprotinfoNodeEdge[];
+}
+
+export class UniprotinfoNodeEdge {
+  cursor: string;
+  node: UniprotinfoNode;
+}
+
+export class UniprotinfoNode {
+  id: any;
+  entry: string;
+  entryname: string;
+  compounds: allCompounds;
 }

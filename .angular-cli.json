@@ -21,8 +21,15 @@
       "styles": [
         "styles.css",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "./assets/JSME/jsme/jsme.nocache.js",
+        "./assets/JSME/jsme/my_JSME_smiles_atom_highlight.js"
+
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

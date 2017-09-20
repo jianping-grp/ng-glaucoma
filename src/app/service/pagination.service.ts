@@ -30,6 +30,7 @@ export class PaginationService {
       this.endCursor = this.allData.pageInfo.endCursor;
       this.hasNextPage = this.allData.pageInfo.hasNextPage;
 
+      //get the page list
       this.pageList = _.chunk(this.edges_all, contentNum_everyPage);
       this.finished = true;
       return {
