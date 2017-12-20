@@ -7,7 +7,7 @@ import {Component, OnInit} from "@angular/core";
 })
 
 export class HelpComponent implements OnInit {
-  title = 'Gluacoma Database';
+  title = 'Glaucoma Database';
   constructor() { }
 
   ngOnInit() { }

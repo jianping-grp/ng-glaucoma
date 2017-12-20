@@ -1,0 +1,122 @@
+<h5>Target Information:</h5>
+<table width="100%" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+  <tr>
+    <th>ChEMBL ID</th>
+    <th>Uniprot</th>
+    <th>Entry Name</th>
+    <th>Target Name</th>
+    <th>KEGG</th>
+    <th>Pathway</th>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://www.ebi.ac.uk/chembl/target/inspect/{{uniprot?.uniprot_chembl_id}}">
+        <button mat-button color="primary">{{uniprot?.uniprot_chembl_id}}</button>
+      </a>
+    </td>
+    <td>
+      <a href="http://www.uniprot.org/uniprot/{{uniprot?.entry}}">
+        <button mat-button color="primary">{{uniprot?.entry}}</button>
+      </a>
+    </td>
+    <td>{{uniprot?.entryname}}</td>
+    <td>{{uniprot?.uniprot_type}}</td>
+    <td>
+      <a [href]="uniprot?.kegg_url">
+        <button mat-button color="primary">{{uniprot?.kegg_name}}</button>
+      </a>
+    </td>
+    <td>
+      <button mat-button color="primary" (click)="goUniprotAllPathwayByUid(uniprot.id)">
+        view
+      </button>
+    </td>
+  </tr>
+</table>
+
+<br>
+<br>
+
+<h5>Compounds Targeting Glaucoma Related Protein:</h5>
+<mat-table #compoundByUidTable [dataSource]="compoundByUidDataSource" style="border: 1px solid darkgrey; ">
+  <ng-container matColumnDef="generic_name">
+    <mat-header-cell *matHeaderCellDef>Compound</mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <app-jsme [elementId]="row.id"
+                [width]="'100px'"
+                [height]="'100px'"
+                [option]="'depict nozoom noshowdraganddropsymbolindepictmode'"
+                [molString]="row.smiles"
+      >
+      </app-jsme>
+      <a [href]="row.chembl_link">
+        <button mat-button color="primary">{{row.generic_name}}</button>
+      </a>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="formula">
+    <mat-header-cell *matHeaderCellDef>Formula</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.formula}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="mol_weight">
+    <mat-header-cell *matHeaderCellDef>Mol Weight</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.mol_weight}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="alogp">
+    <mat-header-cell *matHeaderCellDef>ALogP</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.alogp}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="hba">
+    <mat-header-cell *matHeaderCellDef>HBA</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.hba}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="hbd">
+    <mat-header-cell *matHeaderCellDef>HBD</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.hbd}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="rtb">
+    <mat-header-cell *matHeaderCellDef>RTB</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.rtb}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="psa">
+    <mat-header-cell *matHeaderCellDef>PSA</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.psa}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="drug_status">
+    <mat-header-cell *matHeaderCellDef>Drug Status</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.drug_status}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="drugbank_id">
+    <mat-header-cell *matHeaderCellDef>DrugBank ID</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.drugbank_id}}</mat-cell>
+  </ng-container>
+
+  <!--<ng-container matColumnDef="uniprotinfo_set">-->
+  <!--<mat-header-cell *matHeaderCellDef>Target</mat-header-cell>-->
+  <!--<mat-cell *matCellDef="let row">-->
+  <!--<button mat-button color="primary" (click)="goUniprotByCid(row.id)">{{row.uniprotinfo_set.length}}</button>-->
+  <!--</mat-cell>-->
+  <!--</ng-container>-->
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+
+<mat-paginator [length]="pageMeta?.total_results"
+               [pageSize]="pageMeta?.per_page"
+               (page)="pageChange($event)"
+>
+</mat-paginator>
+
+
+
+

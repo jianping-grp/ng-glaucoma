@@ -1,0 +1,59 @@
+import {Component, OnInit} from "@angular/core";
+import {Compound} from "../../../models/compound"
+import {CompoundsListDataSource} from "../compounds-list.data.source";
+import {PageMeta} from "../../../models/page-meta";
+import {RestService} from "../../../service/rest/rest.service";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {GlobalService} from "../../../service/global/global.service";
+
+
+@Component({
+  templateUrl: './compound-list.component.html',
+  styleUrls: ['./compound-list.component.css']
+})
+
+export class CompoundListComponent implements OnInit {
+  compoundList: Compound[];
+  compoundListDataSource: CompoundsListDataSource;
+  pageMeta: PageMeta | null;
+  displayedColumns: string[];
+  includeParam ='?exclude[]=uniprotinfo_set.*&include[]=uniprotinfo_set.id'; //use for count uniprot;
+  loadingStatus: boolean;
+
+  constructor(private rest: RestService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private globaleService: GlobalService){
+    this.displayedColumns = [
+       'generic_name', 'formula', 'mol_weight',  'alogp', 'hba', 'hbd',
+      'rtb', 'psa', 'uniprotinfo_set'
+    ];
+    this.globaleService.loadingStatus
+      .subscribe(status => this.loadingStatus = status)
+  }
+
+  ngOnInit() {
+    console.log('compound list init');
+    this._getCompoundList()
+  }
+
+  goUniprotByCid(id: any) {
+    this.router.navigate(['/uniprot-by-cid',id])
+  }
+
+  private _getCompoundList(page?, perPage?): void {
+    this.rest.getCompoundList(this.includeParam, page, perPage)
+       .subscribe(data => {
+          this.compoundList = data['compounds'];
+          this.compoundListDataSource = new CompoundsListDataSource(this.compoundList);
+          this.pageMeta = data['meta'];
+         },
+         error => {},
+         () =>{})
+  }
+
+  pageChange(event) {
+    this._getCompoundList(event.pageIndex, event.pageSize)
+  }
+
+}

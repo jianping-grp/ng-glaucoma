@@ -1,0 +1,34 @@
+<div class="container">
+    <!--data loading -->
+    <div *ngIf="loadingStatus">
+      <p class="text-position">Loading document...</p>
+    </div>
+
+    <!--data loading is complete-->
+    <div *ngIf="!loadingStatus">
+      <!--data is empty, comounds.length === 0 -->
+      <div *ngIf="isEmpty">
+        <h5 class="text-position">null</h5>
+      </div>
+
+      <!--the data is not empty-->
+      <div *ngIf="!isEmpty">
+    <h5 class="text-position">Pathway Infomation:</h5>
+    <table style="margin: auto; width: 60%;" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <tr>
+        <th class="mdl-data-table_cell--non-numberic">Pathway Name</th>
+        <th class="mdl-data-table_cell--non-numberic">Pathway Type</th>
+      </tr>
+      <tr *ngFor="let pathway of uniprotAllPathways">
+
+        <td>
+          <a [href]="pathway.pathway_url">
+            <button class="mdl-button mdl-js-button mdl-button--primary">{{pathway.pathway_name}}</button>
+          </a>
+        </td>
+        <td>{{pathway.pathway_type}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>

@@ -1,0 +1,52 @@
+<!--<div *ngIf="!isEmpty">-->
+  <!--<h6>All Compound Related to proteins:</h6>-->
+  <!--<mat-grid-list cols="8" rowHeight="50px">-->
+    <!--<mat-grid-tile *ngFor="let compound of uniprotDbCompounds">-->
+      <!--<a [href]="compound.url">-->
+        <!--<button mat-button color="primary">{{compound.compound_name}}</button>-->
+      <!--</a>-->
+    <!--</mat-grid-tile>-->
+  <!--</mat-grid-list>-->
+<!--</div>-->
+
+<!--<div *ngIf="isEmpty">-->
+  <!--<h5 class="text-position">null</h5>-->
+<!--</div>-->
+<div class="container" >
+
+    <!--data loading -->
+    <div *ngIf="loadingStatus">
+      <p class="text-position">Loading document...</p>
+    </div>
+
+    <!--data loading is complete-->
+    <div *ngIf="!loadingStatus">
+      <h5 class="text-position">Drugs Targeting Glaucoma Related Proteins:</h5>
+      <table style="margin: auto; width:60%" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+        <tr>
+          <th>Drugbank ID</th>
+          <th>ChEMBL ID</th>
+        </tr>
+        <tr *ngFor="let drug of drugs">
+          <td>
+            <a href="{{drug.url}}" >
+              <button mat-button color="primary">{{drug.compound_name}}</button>
+            </a>
+          </td>
+          <td>
+            <a href="https://www.ebi.ac.uk/chembl/target/inspect/{{drug.chembl_id}}">
+              <button mat-button color="primary">{{drug.chembl_id}}</button>
+            </a>
+          </td>
+        </tr>
+      </table>
+
+      <mat-paginator [length]="pageMeta?.total_results"
+                     [pageSize]="pageMeta?.per_page"
+                     (page)="pageChange($event)"
+      ></mat-paginator>
+    </div>
+    </div>
+
+
+

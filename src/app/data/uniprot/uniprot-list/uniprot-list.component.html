@@ -1,0 +1,86 @@
+
+  <!--data loading -->
+  <div *ngIf="loadingStatus">
+    <p class="text-position">Loading document...</p>
+  </div>
+
+  <!--data loading is complete-->
+  <div *ngIf="!loadingStatus">
+    <h5>Proteins Related to Glaucoma:</h5>
+    <mat-table #uniprotListTable [dataSource]="uniprotListDataSource" style="border: 1px solid darkgrey">
+      <ng-container matColumnDef="uniprot_chembl_id">
+        <mat-header-cell *matHeaderCellDef>ChEMBL ID</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <a href="https://www.ebi.ac.uk/chembl/target/inspect/{{row.uniprot_chembl_id}}">
+            <button mat-button color="primary">{{row.uniprot_chembl_id}}</button>
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="entry">
+        <mat-header-cell *matHeaderCellDef>Uniprot</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <a href="http://www.uniprot.org/uniprot/{{row.entry}}">
+            <button mat-button color="primary">{{row.entry}}</button>
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="entryname">
+        <mat-header-cell *matHeaderCellDef>Entry Name</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.entryname}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="uniprot_type">
+        <mat-header-cell *matHeaderCellDef>Target Name</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.uniprot_type}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="uniprot_descriptor">
+        <mat-header-cell *matHeaderCellDef>Target Description</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.uniprot_descriptor}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="kegg_name">
+        <mat-header-cell *matHeaderCellDef>KEGG</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <a [href]="row.kegg_url">
+            <button mat-button color="primary">{{row.kegg_name}}</button>
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="uniprot_all_pathway">
+        <mat-header-cell *matHeaderCellDef>Pathway</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-button color="primary" (click)="goUniprotAllPathwayByUid(row.id)">view</button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="uniprot_db_compound">
+        <mat-header-cell *matHeaderCellDef>All Compound Related to proteins</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-button color="primary" (click)="goUniprotDbCompoundByUid(row.id)">view</button>
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="compounds">
+        <mat-header-cell *matHeaderCellDef>Compound</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-button color="primary" (click)="goCompoundByUid(row.id)">{{row.compounds.length}}</button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+
+    <mat-paginator [length]="pageMeta?.total_results"
+                   [pageSize]="pageMeta?.per_page"
+                   (page)="pageChange($event)"
+    ></mat-paginator>
+  </div>
+
+
+

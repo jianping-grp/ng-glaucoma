@@ -1,0 +1,91 @@
+<div class="container">
+  <h4>Keyword Search:</h4>
+  <form #searchFrom="ngForm">
+  <div class="input-group">
+    <input class="form-control" placeholder="Please Input Drug name or Target name" #keyword required>
+    <span class="input-group-btn">
+      <button mat-raised-button color="primary" (click)="goUniprotByName(keyword.value)">Target</button>
+      <button mat-raised-button color="primary" (click)="goProductByName(keyword.value)">Drug</button>
+    </span>
+  </div>
+  </form>
+  <br>
+  <h4>Structure Search or Target Prediction:</h4>
+  <div class="row">
+    <div class="col-md-6">
+      <app-jsme [elementId]="'jsme-demo-id'"
+                #applet
+                [width]="'90%'"
+                [height]="'400px'"
+                [showDemo]="true"
+      >loading JSME widget
+      </app-jsme>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+
+      <!--<div class="mdl-layout__tab-bar mdl-js-ripple-effect">-->
+        <!--<a href="#structure-search" class="mdl-layout__tab">Structure Search</a>-->
+        <!--<a href="#Target-Prediction" class="mdl-layout__tab">Target Prediction</a>-->
+      <!--</div>-->
+
+      <div class="scrolling-content">
+        <mat-tab-group>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <!--<mat-icon>search</mat-icon>-->
+              <mat-icon>done</mat-icon>
+              <em style="color: black">Target Prediction</em>
+            </ng-template>
+
+            <mat-accordion class="headers-align">
+              <h5>SMILES:</h5>
+              <textarea class="smile-container" #smiles>{{applet.smiles}}</textarea>
+
+              <h6 class="font-color">
+                <em>Similarity Ensemble Approach(SEA):</em>
+                <button mat-raised-button  color="primary" (click)="goTargetPredictionBySmiles(smiles.value)">Target Prediction</button></h6>
+            </mat-accordion>
+          </mat-tab>
+
+          <!--Browse-->
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <!--<mat-icon>import_contacts</mat-icon>-->
+              <mat-icon>search</mat-icon>
+              <em>Structure Search</em>
+            </ng-template>
+
+            <mat-accordion class="headers-align">
+              <h5>SMILES:</h5>
+              <textarea class="smile-container" #smiles>{{applet.smiles}}</textarea>
+              <form #structureSearchForm (ngSubmit)="submit(smiles.value)">
+                <mat-form-field>
+                  <mat-select placeholder="search type" [(ngModel)]="selectedStructureType" name="structureSearchType">
+                    <mat-option *ngFor="let searchTypeEl of structureSearchTypeList" [value]="searchTypeEl.value">
+                      {{searchTypeEl.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-select placeholder="similarity value" [(ngModel)]="selectedSimilarityValue"
+                              name="similarityValue" [disabled]="selectedStructureType==='substructure'">
+                    <mat-option *ngFor="let similarity of similarityValueList" [value]="similarity">
+                      {{similarity}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-raised-button  type="submit" color="primary" [disabled]="structureSearchForm.invalid">Fetch Compounds</button>
+
+              </form>
+            </mat-accordion>
+          </mat-tab>
+
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+
+</div>
